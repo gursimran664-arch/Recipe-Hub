@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    /* Clean, pure CSS classes - no syntax errors for your code editor */
+    .profile-tab-active {
+        color: var(--sage) !important;
+        font-weight: bold !important;
+    }
+    .profile-tab-inactive {
+        color: #333 !important;
+        font-weight: normal !important;
+    }
+</style>
+
+<div class="header-banner">
+    <h1>USER PROFILE</h1>
+</div>
+<div class="main-content-card" style="text-align: center;">
+    <div style="font-size: 70px; margin-bottom: 15px; user-select: none;">👤</div>
+    <h2 style="margin: 0; color: #4B2C69; font-size: 1.8em;">{{ user.name }}</h2>
+    <p style="text-transform: uppercase; letter-spacing: 2px; color: #777; font-size: 0.85em; font-weight: bold; margin-top: 5px;">{{ user.rank }}</p>
+    
+    <div style="display: flex; justify-content: center; gap: 25px; margin: 35px 0; flex-wrap: wrap;">
+        <div style="background: white; border: 1px solid #222; padding: 25px; border-radius: 12px; width: 200px; box-sizing: border-box; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+            <h4 style="margin: 0; color: #666; font-size: 0.95em;">Weekly Meals</h4>
+            <span style="font-size: 2.3em; font-weight: bold; color: #111; display: block; margin-top: 5px;">{{ user.planned }}</span>
+        </div>
+        <div style="background: white; border: 1px solid #222; padding: 25px; border-radius: 12px; width: 200px; box-sizing: border-box; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+            <h4 style="margin: 0; color: #666; font-size: 0.95em;">New Discoveries</h4>
+            <span style="font-size: 2.3em; font-weight: bold; color: #111; display: block; margin-top: 5px;">{{ user.new }}</span>
+        </div>
+    </div>
+
+    <div style="max-width: 550px; margin: 30px auto 0; text-align: left; border-top: 1px solid #e2e8f0; font-size: 0.95em;">
+        <a href="{{ url_for('profile', tab='personal') }}" 
+           class="display: block; text-decoration: none; border-bottom: 1px solid #e2e8f0; padding: 15px 5px; {% if active_tab == 'personal' %}profile-tab-active{% else %}profile-tab-inactive{% endif %}">
+           🔒 Personal Information
+        </a>
+        <a href="{{ url_for('profile', tab='preferences') }}" 
+           class="display: block; text-decoration: none; border-bottom: 1px solid #e2e8f0; padding: 15px 5px; {% if active_tab == 'preferences' %}profile-tab-active{% else %}profile-tab-inactive{% endif %}">
+           🍴 Meal Preferences
+        </a>
+        <a href="{{ url_for('profile', tab='dietary') }}" 
+           class="display: block; text-decoration: none; border-bottom: 1px solid #e2e8f0; padding: 15px 5px; {% if active_tab == 'dietary' %}profile-tab-active{% else %}profile-tab-inactive{% endif %}">
+           🌱 Dietary Needs
+        </a>
+    </div>
+
+    <div style="max-width: 550px; margin: 20px auto; text-align: left; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        {% if active_tab == 'personal' %}
+            <h3 style="margin-top: 0; color: #1e293b;">Personal Information</h3>
+            <p><strong>Account Name:</strong> {{ user.name }}</p>
+            <p><strong>Status Level:</strong> Premium Cook ({{ user.rank }})</p>
+            <p><strong>Email Notification Status:</strong> Enabled</p>
+        {% elif active_tab == 'preferences' %}
+            <h3 style="margin-top: 0; color: #1e293b;">Meal Preferences</h3>
+            <p><strong>Preferred Prep Style:</strong> Under 30 Minutes, Whole-food Focused</p>
+            <p><strong>Default Servings:</strong> 2 Portions</p>
+            <p><strong>Primary Goal:</strong> Dynamic Recipe Variation</p>
+        {% elif active_tab == 'dietary' %}
+            <h3 style="margin-top: 0; color: #1e293b;">Dietary Needs</h3>
+            <p><strong>Tracked Goals:</strong> Low Sodium, Unprocessed Balanced Whole Foods</p>
+            <p><strong>Excluded Ingredients:</strong> None Configured</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
