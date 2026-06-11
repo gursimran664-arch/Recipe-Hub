@@ -1,0 +1,129 @@
+:root {
+    --header-gradient: linear-gradient(90deg, #6a82fb, #fc5c7d);
+    --bg-grey: #d1d9e6;
+    --sage: #5E9387;
+    --cream: #F2E3C2;
+    --gold: #D4A34D;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-grey);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navigation Bar */
+nav {
+    background: #1e2b37;
+    padding: 18px;
+    text-align: center;
+}
+
+nav a {
+    color: #e2e8f0;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: bold;
+    font-size: 1em;
+    transition: color 0.2s ease;
+}
+
+nav a:hover {
+    color: #fc5c7d;
+}
+
+/* Full Width Header Banner Layout */
+.header-banner {
+    background: var(--header-gradient);
+    color: white;
+    text-align: center;
+    padding: 55px 0 75px 0;
+    width: 100%;
+}
+
+.header-banner h1 {
+    font-size: 2.8em;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.header-banner p {
+    margin: 8px 0 0 0;
+    font-size: 0.95em;
+    letter-spacing: 2px;
+    opacity: 0.9;
+}
+
+/* Central Overlay Content Box */
+.main-content-card {
+    width: 100%;
+    max-width: 100%; 
+    margin: -35px 0 0 0; 
+    background: var(--cream); 
+    padding: 40px 10%; 
+    box-shadow: 0 -4px 25px rgba(0,0,0,0.08);
+    min-height: 550px;
+    box-sizing: border-box;
+    flex-grow: 1; 
+}
+
+.section-divider {
+    border-bottom: 2px solid #2c3e50;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    color: #2c3e50;
+    font-size: 1.5em;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+/* Ingredient Badge Tags */
+.tag {
+    background: #ffffff; 
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+    font-size: 0.9em;
+    color: #334155;
+    font-weight: 500;
+}
+
+.tag a {
+    text-decoration: none;
+    color: #94a3b8;
+    font-weight: bold;
+    margin-left: 8px;
+    transition: color 0.15s ease;
+}
+
+.tag a:hover {
+    color: #ef4444 !important;
+}
+
+/* Interactive Action Buttons */
+.btn-action {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.95em;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.btn-action:hover {
+    filter: brightness(92%);
+}
+
+.btn-action:active {
+    transform: scale(0.98);
+}
