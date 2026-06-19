@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .profile-tab {
+        text-decoration: none; 
+        padding: 15px 10px; 
+        display: inline-block;
+        color: #333;
+    }
+    .profile-tab-active {
+        color: var(--sage) !important;
+        font-weight: bold !important;
+        border-bottom: 2px solid var(--sage);
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #334155;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 0.95em;
+    }
+</style>
+
+<div class="header-banner">
+    <h1>USER PROFILE</h1>
+</div>
+<div class="main-content-card" style="text-align: center;">
+    <div style="font-size: 70px; margin-bottom: 15px; user-select: none;">👤</div>
+    <h2 style="margin: 0; color: #4B2C69; font-size: 1.8em;">{{ user.name }}</h2>
+    <p style="text-transform: uppercase; letter-spacing: 2px; color: #555; font-size: 0.85em; font-weight: bold; margin-top: 5px;">{{ user.rank }}</p>
+    
+    <div style="display: flex; justify-content: center; gap: 25px; margin: 35px 0; flex-wrap: wrap;">
+        <div style="background: white; border: 1px solid #cbd5e1; padding: 25px; border-radius: 12px; width: 200px; box-sizing: border-box; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+            <h4 style="margin: 0; color: #666; font-size: 0.95em;">Weekly Meals</h4>
+            <span style="font-size: 2.3em; font-weight: bold; color: #111; display: block; margin-top: 5px;">{{ user.planned }}</span>
+        </div>
+        <div style="background: white; border: 1px solid #cbd5e1; padding: 25px; border-radius: 12px; width: 200px; box-sizing: border-box; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+            <h4 style="margin: 0; color: #666; font-size: 0.95em;">New Discoveries</h4>
+            <span style="font-size: 2.3em; font-weight: bold; color: #111; display: block; margin-top: 5px;">{{ user.new }}</span>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div style="max-width: 550px; margin: 0 auto 15px; padding: 12px; border-radius: 6px; background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; font-weight: 500; text-align: left;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div style="max-width: 550px; margin: 30px auto 0; text-align: left; border-top: 1px solid #b5a78b; display: flex; justify-content: space-between; font-size: 0.95em;">
+        <a href="{{ url_for('profile', tab='personal') }}" class="profile-tab {% if active_tab == 'personal' %}profile-tab-active{% endif %}">
+            🔒 Personal Info
+        </a>
+        <a href="{{ url_for('profile', tab='preferences') }}" class="profile-tab {% if active_tab == 'preferences' %}profile-tab-active{% endif %}">
+            🍴 Meal Preferences
+        </a>
+        <a href="{{ url_for('profile', tab='dietary') }}" class="profile-tab {% if active_tab == 'dietary' %}profile-tab-active{% endif %}">
+            🌱 Dietary Needs
+        </a>
+    </div>
+
+    <div style="max-width: 550px; margin: 20px auto; text-align: left; background: #ffffff; padding: 25px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+        <form action="{{ url_for('profile', tab=active_tab) }}" method="POST">
+            {% if active_tab == 'personal' %}
+                <h3 style="margin-top: 0; color: #1e293b; margin-bottom: 20px;">Edit Personal Information</h3>
+                <div class="form-group">
+                    <label for="name">Account Name</label>
+                    <input type="text" id="name" name="name" class="form-control" value="{{ user.name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email_status">Email Notification Status</label>
+                    <input type="text" id="email_status" name="email_status" class="form-control" value="{{ user.email_status }}">
+                </div>
+            {% elif active_tab == 'preferences' %}
+                <h3 style="margin-top: 0; color: #1e293b; margin-bottom: 20px;">Edit Meal Preferences</h3>
+                <div class="form-group">
+                    <label for="prep_style">Preferred Prep Style</label>
+                    <input type="text" id="prep_style" name="prep_style" class="form-control" value="{{ user.prep_style }}">
+                </div>
+                <div class="form-group">
+                    <label for="servings">Default Servings</label>
+                    <input type="text" id="servings" name="servings" class="form-control" value="{{ user.servings }}">
+                </div>
+                <div class="form-group">
+                    <label for="primary_goal">Primary Goal</label>
+                    <input type="text" id="primary_goal" name="primary_goal" class="form-control" value="{{ user.primary_goal }}">
+                </div>
+            {% elif active_tab == 'dietary' %}
+                <h3 style="margin-top: 0; color: #1e293b; margin-bottom: 20px;">Edit Dietary Needs</h3>
+                <div class="form-group">
+                    <label for="tracked_goals">Tracked Goals</label>
+                    <input type="text" id="tracked_goals" name="tracked_goals" class="form-control" value="{{ user.tracked_goals }}">
+                </div>
+                <div class="form-group">
+                    <label for="excluded_ingredients">Excluded Ingredients</label>
+                    <input type="text" id="excluded_ingredients" name="excluded_ingredients" class="form-control" value="{{ user.excluded_ingredients }}">
+                </div>
+            {% endif %}
+            
+            <div style="margin-top: 25px; text-align: right;">
+                <button type="submit" class="btn-action" style="background-color: var(--sage); color: white; padding: 10px 25px; border-radius: 4px; font-size: 0.9em; border: none; cursor: pointer;">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
