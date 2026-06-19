@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Homepage banner -->
+<div class="header-banner">
+    <h1>RECIPE HUB</h1>
+    <p>A WEBSITE WITH HEALTHY RECIPES</p>
+</div>
+
+<!-- Main homepage content -->
+<div class="main-content-card">
+    <h2 class="section-divider">HOME PAGE</h2>
+    
+    <div style="margin-top: 10px;">
+
+        <!-- Ingredient section heading -->
+        <h3 style="margin-top: 0; font-size: 1.4em; color: #1e2b37;">Active Ingredient Pool</h3>
+        <p style="color: #444; margin-bottom: 20px;">Current items ready to be used:</p>
+        
+        <!-- Form to add ingredients -->
+        <form action="{{ url_for('add_ingredient') }}" method="POST" style="margin-bottom: 25px;">
+           
+            <!-- Ingredient input field -->
+            <input type="text" name="ingredient" placeholder="Add Ingredient" style="width: 100%; padding: 15px; border-radius: 6px; border: 1px solid #ccc; font-size: 1em; box-sizing: border-box; margin-bottom: 15px;" required>
+            
+             <!-- Add ingredient button -->
+            <button type="submit" class="btn-action" style="background-color: #B2D3C2; color: #1e352f; border: 1px solid #2c3e50; padding: 12px 25px;">+ Add More Ingredients</button>
+        </form>
+
+        <!-- Display current ingredients as tags -->
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
+            {% for item in ingredients %}
+
+            <!-- Ingredient tag -->
+            <span class="tag">
+                {{ item }} 
+
+                <!-- Remove ingredient link -->
+                <a href="{{ url_for('remove_ingredient', item=item) }}">✕</a>
+            </span>
+            {% else %}
+
+             <!-- Message when no ingredients exist -->
+            <p style="color: #666; font-style: italic; margin: 0;">No items active. Type an item above to build up your ingredients pool.</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+     <!-- Generate recipe button -->
+    <div style="text-align: center; margin-top: 50px;">
+        <a href="{{ url_for('recipe') }}" class="btn-action" style="background-color: var(--sage); color: white; padding: 15px 40px; font-size: 1.05em;">Generate Healthy Recipe</a>
+    </div>
+</div>
+{% endblock %}

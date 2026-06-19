@@ -1,46 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
+
+<!-- Contact page banner -->
 <div class="header-banner">
     <h1>CONTACT US</h1>
 </div>
 
+<!-- Main contact section -->
 <div class="main-content-card">
+
+    <!-- Display success message -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-                
-                {% if category == 'success' %}
-                    <div style="padding: 15px; margin-bottom: 20px; border-radius: 6px; font-weight: 500; background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc;">
-                        {{ message }}
-                    </div>
-                {% else %}
-                    <div style="padding: 15px; margin-bottom: 20px; border-radius: 6px; font-weight: 500; background-color: #f8d7da; color: #842029; border: 1px solid #f5c2c7;">
-                        {{ message }}
-                    </div>
-                {% endif %}
-
+                <div style="padding: 15px; margin-bottom: 20px; border-radius: 6px; background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; font-weight: 500;">
+                    {{ message }}
+                </div>
             {% endfor %}
         {% endif %}
     {% endwith %}
 
+     <!-- Contact details and form layout -->
     <div style="display: flex; gap: 50px; flex-wrap: wrap;">
+        
+        <!-- Contact information -->
         <div style="flex: 1; min-width: 260px;">
             <h3 class="section-divider" style="font-size: 1.4em;">Get In Touch</h3>
+           
+            <!-- Address section -->
             <div style="background: #ffffff; padding: 20px; border-left: 4px solid var(--sage); margin-bottom: 20px; border-radius: 0 6px 6px 0; border: 1px solid #cbd5e1;">
                 <p style="margin: 0; line-height: 1.5;"><strong>📍 Address:</strong><br>{{ info.address }}</p>
             </div>
+           
+            <!-- Phone section -->
             <div style="background: #ffffff; padding: 20px; border-left: 4px solid var(--sage); border-radius: 0 6px 6px 0; border: 1px solid #cbd5e1;">
                 <p style="margin: 0; line-height: 1.5;"><strong>📞 Phone:</strong><br>{{ info.phone }}</p>
             </div>
         </div>
-
+            
+        <!-- Contact form -->
         <div style="flex: 1; min-width: 300px;">
             <h3 class="section-divider" style="font-size: 1.4em;">Send us a Message</h3>
+            
+            <!-- Message form -->
             <form action="{{ url_for('contact') }}" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                
+                <!-- User name -->
                 <input type="text" name="name" placeholder="Full Name" style="padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; background: #fff;" required>
+                
+                <!-- User email -->
                 <input type="email" name="email" placeholder="Email Address" style="padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; background: #fff;" required>
+                
+                <!-- User message -->
                 <textarea name="message" placeholder="How can we help you?" rows="5" style="padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; resize: vertical; background: #fff;" required></textarea>
-                <button type="submit" class="btn-action" style="align-self: flex-start; background-color: var(--sage); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Send Message</button>
+                 
+                <!-- Submit button -->
+                <button type="submit" class="btn-action" style="align-self: flex-start; background-color: var(--sage); color: white;">Send Message</button>
             </form>
         </div>
     </div>
