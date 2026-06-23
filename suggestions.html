@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    /* Active filter button style */
+    .chip-active {
+        background-color: var(--sage) !important;
+        color: white !important;
+    }
+    /* Inactive filter button style */
+    .chip-inactive {
+        background-color: #cbd5e1 !important;
+        color: #334155 !important;
+    }
+</style>
+
+<!-- Suggestions page header -->
+<div class="header-banner">
+    <h1>SUGGESTIONS</h1>
+</div>
+<div class="main-content-card">
+
+    <!-- Healthy ingredient suggestions section -->
+    <h2 class="section-divider">Healthy Grocery Alternatives</h2>
+    <p style="color: #333; margin-bottom: 25px;">Select healthy whole food elements directly into your kitchen dashboard:</p>
+    
+    <!-- Search ingredients -->
+    <input type="text" id="altSearchInput" onkeyup="filterAlternatives()" placeholder="Search ingredients instantly..." style="width: 100%; padding: 15px; margin-bottom: 25px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1em;">
+    
+    <!-- Category filter buttons -->
+    <div style="display: flex; gap: 10px; margin-bottom: 35px; flex-wrap: wrap; align-items: center;">
+        <span style="font-weight: bold; color: #333; margin-right: 10px;">Filter Layout:</span>
+        
+        <a href="{{ url_for('suggestions', category='All') }}" 
+           class="btn-action {% if active_category == 'All' %}chip-active{% else %}chip-inactive{% endif %}" 
+           style="padding: 6px 14px; font-size: 0.85em; text-decoration: none; border-radius: 20px;">
+           All Products
+        </a>
+        
+        {% for cat_name in categories.keys() %}
+        <a href="{{ url_for('suggestions', category=cat_name) }}" 
+           class="btn-action {% if active_category == cat_name %}chip-active{% else %}chip-inactive{% endif %}" 
+           style="padding: 6px 14px; font-size: 0.85em; text-decoration: none; border-radius: 20px;">
+            {{ cat_name }}
+        </a>
+        {% endfor %}
+    </div>
+    
+    <!-- Display ingredient cards -->
+    <div id="ingredientsGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px;">
+        {% for cat_name, items in categories.items() %}
+            {% if active_category == 'All' or active_category == cat_name %}
+                {% for alt in items %}
+
+                <!-- Alternative ingredient card -->
+                <div class="alt-card" data-name="{{ alt.name.lower() }}" style="border: 1px solid #b5a78b; padding: 25px; display: flex; align-items: center; background: #fff; border-radius: 8px; box-sizing: border-box; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <div style="flex: 1;">
+                        <span style="font-size: 0.75em; text-transform: uppercase; color: var(--sage); font-weight: bold; display: block; margin-bottom: 4px;">{{ cat_name }}</span>
+                        <h4 style="margin: 0 0 15px 0; font-size: 1.3em; color: #222; font-weight: 600;">{{ alt.name }}</h4>
+
+                        <!-- Add ingredient to kitchen pool -->
+                        <a href="{{ url_for('use_alternative', name=alt.name) }}" class="btn-action" style="background: var(--gold); border: 1px solid #8c621d; padding: 8px 20px; font-size: 0.85em; color: black; font-weight: bold; display: inline-block; border-radius: 4px;">Use This</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Search filter function -->
+<script>
+function filterAlternatives() {
+    // Get search text
+    let input = document.getElementById('altSearchInput').value.toLowerCase();
+    let cards = document.getElementsByClassName('alt-card');
+    
+    // Show matching cards and hide others
+    for (let i = 0; i < cards.length; i++) {
+        let name = cards[i].getAttribute('data-name');
+        if (name.includes(input)) {
+            cards[i].style.display = "flex";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+</script>
+{% endblock %}
